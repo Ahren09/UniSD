@@ -1,0 +1,172 @@
+############################################
+# OS / filesystem
+############################################
+
+.DS_Store
+.nfs*
+
+############################################
+# IDEs & editors
+############################################
+
+.idea/
+.vscode/
+.spyderproject
+.spyproject
+.ropeproject
+
+############################################
+# Local notes / assistant files
+############################################
+
+CLAUDE.md
+TODO.md
+Idea.md
+.claude/
+.dev*
+
+############################################
+# Explicit no-push markers
+############################################
+
+*nopush*
+
+############################################
+# Python bytecode & caches
+############################################
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+############################################
+# Virtual environments
+############################################
+
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+############################################
+# Build / packaging artifacts
+############################################
+
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+############################################
+# Dependency managers
+############################################
+
+.pdm.toml
+.pdm-python
+.pdm-build/
+__pypackages__/
+
+############################################
+# Test / coverage artifacts
+############################################
+
+tests/
+.coverage
+.coverage.*
+.cache/
+.cover/
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+
+
+############################################
+# Jupyter / IPython
+############################################
+
+.ipynb_checkpoints/
+ipython_config.py
+
+############################################
+# Logs, outputs, results
+############################################
+
+*.log
+wandb*
+ckpt/
+output*
+results*
+core/
+*/ckpt/*
+*/checkpoint*
+*test_scripts*
+
+############################################
+# Data & datasets
+############################################
+
+data*
+data/process.py
+
+############################################
+# Model checkpoints / experiment artifacts
+############################################
+
+*.pt
+*jianh*
+
+############################################
+# Model / config secrets
+############################################
+
+model_api_configs/model_api_config.json
+
+############################################
+# Common data / artifact formats
+############################################
+
+*.jsonl
+*.xlsx
+*.pdf
+*.txt
+*.tex
+
+############################################
+# Scripts
+############################################
+
+train*.sh
+
+
+############################################
+# PyInstaller
+############################################
+
+*.manifest
+*.spec
+
