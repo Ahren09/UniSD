@@ -1,0 +1,40 @@
+# UniSD pinned dependencies — Python 3.12, CUDA 12.8 (cu128 wheels).
+# See README §Installation for the install procedure. This file is meant to be
+# applied as the LAST step:  pip install -r requirements.txt --no-build-isolation
+# (torch cu128 wheels and CUDA_HOME must be set up first.)
+
+# ---- Core ML / inference ----
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+torchaudio==2.11.0+cu128
+triton==3.6.0
+vllm==0.20.2
+flashinfer-python==0.6.8.post1
+flash_attn==2.8.3
+
+# ---- Training stack ----
+transformers==5.8.0
+tokenizers==0.22.2
+safetensors==0.7.0
+huggingface-hub==1.14.0
+hf-xet==1.5.0
+trl==1.4.0
+accelerate==1.13.0
+peft==0.19.1
+datasets==4.8.5
+deepspeed==0.19.0
+einops==0.8.2
+sentencepiece==0.2.1
+
+# ---- Utilities ----
+wandb==0.26.1
+pandas==3.0.3
+numpy==2.3.5
+scipy==1.17.1
+matplotlib==3.10.9
+rich==15.0.0
+tqdm==4.67.3
+openai==2.36.0
+openpyxl==3.1.5
+pydantic==2.13.4
+fsspec==2026.2.0

@@ -6,6 +6,7 @@
 
 [![Website](https://img.shields.io/badge/🌐_Project-Website-2EA44F.svg)](https://unifiedsd.github.io/)
 [![arXiv](https://img.shields.io/badge/arXiv-2605.06597-b31b1b.svg)](https://arxiv.org/abs/2605.06597)
+[![HF Paper](https://img.shields.io/badge/🤗_Hugging_Face-Paper-FFD21E.svg)](https://huggingface.co/papers/2605.06597)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.9-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
@@ -49,10 +50,40 @@ UniSD is built from five complementary mechanisms that can be enabled independen
 
 ## 🚀 Installation
 
+UniSD targets **Python 3.12 + CUDA 12.8** (cu128 wheels). The install has a few prerequisite steps before the final `pip install -r requirements.txt`, because (a) PyTorch's cu128 build lives on the PyTorch wheel index and (b) flash-attention-2 must be compiled against the installed torch.
+
 ```bash
+# 1) Create and activate the env
 conda create -n unisd python=3.12 -y
 conda activate unisd
-pip install -r requirements.txt
+pip install -U pip setuptools wheel packaging ninja
+
+# 2) Install cu128 PyTorch from the PyTorch wheel index (must precede flash-attn build)
+pip install --index-url https://download.pytorch.org/whl/cu128 \
+    torch==2.11.0 torchvision==0.26.0 torchaudio==2.11.0
+
+# 3) Point flash-attn's CUDA build at a 12.x toolkit
+#    (on many hosts /usr/local/cuda → 13.x, which mismatches torch's cu128 ABI)
+export CUDA_HOME=/usr/local/cuda-12.6
+
+# 4) Install everything else — flash-attn builds from source here (~20 min the first time)
+pip install -r requirements.txt --no-build-isolation
+```
+
+> 💡 **Don't have `/usr/local/cuda-12.6`?** Any CUDA 12.x toolkit (12.4–12.8) works. Run `ls -d /usr/local/cuda-12*` to see what's available and set `CUDA_HOME` to that path.
+
+> ⚠️ **trl ↔ vLLM compatibility**: this environment ships `trl==1.4.0` (officially supports vLLM 0.12.0–0.18.0) with `vllm==0.20.2`. The combination works in our smoke tests but trl will print a warning at import time. If you hit a runtime error from `VLLMClient`, pin `vllm<0.19`.
+
+### Verify the install
+
+```bash
+python -c "
+import torch, vllm, flash_attn, flashinfer
+print('torch       ', torch.__version__, 'cuda_ok:', torch.cuda.is_available())
+print('vllm        ', vllm.__version__)
+print('flash_attn  ', flash_attn.__version__)
+print('flashinfer  ', flashinfer.__version__)
+"
 ```
 
 Optional environment variables: `WANDB_API_KEY` (logging), `HF_TOKEN` (gated models).

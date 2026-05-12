@@ -3,7 +3,6 @@ UniSD entry point.
 Uses --mode to select a UniSD training variant (e.g. unisd_star, ema, contrastive, match_repr,
 agreement_seq_random, agreement_seq_retrieval, agreement_seq_induction, clip).
 """
-import math
 import os
 import sys
 import time
@@ -11,11 +10,10 @@ import warnings
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 os.environ["TRL_EXPERIMENTAL_SILENCE"] = "1"
 warnings.filterwarnings("ignore", message="incompatible copy of pydevd")
-from src.utils import env_utils  # noqa: F401 — env_utils import patches transformers for custom-code models
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import json
 import random
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.analysis.resource_consumption_utils import (
     append_resource_record,

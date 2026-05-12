@@ -1,6 +1,5 @@
 import inspect
 import os
-import textwrap
 from collections import defaultdict, deque
 from contextlib import nullcontext
 from functools import partial
@@ -12,16 +11,20 @@ import torch
 import torch.utils.data
 import transformers
 from accelerate import logging
-from accelerate.utils import broadcast_object_list, gather, gather_object, is_peft_model, set_seed
+from accelerate.utils import (
+    broadcast_object_list,
+    gather,
+    gather_object,
+    is_peft_model,
+    set_seed,
+)
 from datasets import Dataset, IterableDataset
 from torch import nn
 from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 from torch.utils.data import DataLoader, Sampler
 from transformers import (
     AutoConfig,
-    AutoModelForSequenceClassification,
     AutoProcessor,
-    AutoTokenizer,
     GenerationConfig,
     PreTrainedModel,
     PreTrainedTokenizerBase,
@@ -30,20 +33,30 @@ from transformers import (
     is_wandb_available,
 )
 from transformers.trainer_utils import seed_worker
-from transformers.utils import is_datasets_available, is_flash_attn_2_available, is_peft_available, is_rich_available
-
-from trl.data_utils import apply_chat_template, is_conversational, maybe_apply_chat_template, prepare_multimodal_messages
+from transformers.utils import (
+    is_datasets_available,
+    is_flash_attn_2_available,
+    is_peft_available,
+    is_rich_available,
+)
+from trl.data_utils import (
+    apply_chat_template,
+    is_conversational,
+    maybe_apply_chat_template,
+    prepare_multimodal_messages,
+)
+from trl.experimental.utils import prepare_peft_model
 from trl.extras.profiling import profiling_context, profiling_decorator
 from trl.generation.vllm_client import VLLMClient
-from trl.import_utils import is_liger_kernel_available, is_vllm_available
+from trl.import_utils import is_vllm_available
 from trl.models import prepare_deepspeed, prepare_fsdp, unwrap_model_for_generation
-from trl.experimental.utils import prepare_peft_model
+
 try:
     from trl.trainer.base_trainer import BaseTrainer
 except ImportError:
     from trl.trainer.base_trainer import _BaseTrainer as BaseTrainer
-from src.config.base_config import DistilConfig
 from accelerate.state import AcceleratorState
+from torch.nn.functional import kl_div, log_softmax
 from trl.trainer.utils import (
     RepeatSampler,
     disable_dropout_in_model,
@@ -52,7 +65,6 @@ from trl.trainer.utils import (
     identity,
     nanmax,
     nanmin,
-    nanstd,
     pad,
     print_prompt_completions_sample,
     selective_log_softmax,
@@ -61,7 +73,8 @@ from trl.trainer.utils import (
     split_tensor_dict,
     unsplit_pixel_values_by_grid,
 )
-from torch.nn.functional import log_softmax, kl_div
+
+from src.config.base_config import DistilConfig
 from src.const import *
 
 if is_peft_available():
@@ -69,6 +82,7 @@ if is_peft_available():
 
 if is_vllm_available():
     from vllm import LLM, SamplingParams
+
     from src.utils.env_utils import get_model_dtype
 
 if is_wandb_available():

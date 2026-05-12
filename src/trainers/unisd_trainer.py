@@ -9,8 +9,7 @@ Modes:
 import logging
 
 import torch
-from torch import nn
-from torch.nn.functional import log_softmax, kl_div
+from torch.nn.functional import kl_div
 
 from src.const import *
 from src.trainers.base_trainer import SelfDistillationTrainer

@@ -153,8 +153,9 @@ model_api_configs/model_api_config.json
 *.jsonl
 *.xlsx
 *.pdf
-*.txt
 *.tex
+
+logs*
 
 ############################################
 # Scripts
